@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useTheme } from '@mui/material/styles';
 import { 
   AppBar, 
   IconButton, 
@@ -17,6 +18,7 @@ import { isMobile } from 'helpers/app';
 
 
 const MenuBar = (props) => {
+  const theme = useTheme();
   const [helpOpen, setHelpOpen] = useState(false);
   const [shareOpen, setShareOpen] = useState(false);
   
@@ -53,13 +55,13 @@ const MenuBar = (props) => {
   }
   
   return (
-    <AppBar position="relative">
+    <AppBar position="relative" sx={{ background: `linear-gradient(90deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})` }}>
       <Toolbar variant="dense">
         <Typography variant="h5" component="h1" sx={{ fontWeight: 500, flexGrow: 1 }}>
           Gradient Guide
         </Typography>
 
-		<IconButton aria-label="Help" onClick={handleClickHelp} color="inherit">
+        <IconButton aria-label="Help" onClick={handleClickHelp} color="inherit">
           <Info />
         </IconButton>
         <HelpDialog
@@ -76,10 +78,10 @@ const MenuBar = (props) => {
           data={shareData}
         />
 		
-		<Link href="https://mh11wi.github.io" sx={{ textDecoration: 'none', color: 'inherit' }}>
-            <IconButton aria-label="Home" color="inherit">
-                <Home />
-            </IconButton>
+        <Link href="https://mh11wi.github.io" sx={{ textDecoration: 'none', color: 'inherit' }}>
+          <IconButton aria-label="Home" color="inherit">
+            <Home />
+          </IconButton>
         </Link>
       </Toolbar>
     </AppBar>
