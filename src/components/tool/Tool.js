@@ -17,10 +17,19 @@ const Tool = (props) => {
   const [colors, setColors] = useState(['#ffffff', '#000000', null, null, null, null, null, null]);
   const [type, setType] = useState('vertical');
   const steps = [
-    { label: 'Select nail shape', content: <StepModel /> },
     { label: 'Select polish colors', content: <StepColors /> },
-    { label: 'Select gradient type', content: <StepGradient /> }
+    { label: 'Select gradient type', content: <StepGradient /> },
   ];
+
+  if (!props.skipModel) {
+    steps.unshift({ label: 'Select nail shape', content: <StepModel /> });
+  }
+  
+  useEffect(() => {
+    if (props.skipModel) {
+      setModel('me');
+    }
+  }, [props.skipModel]);
   
   const renderStepContent = (index) => {
     return steps[index].content;
