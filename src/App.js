@@ -1,9 +1,10 @@
-import { Box, Typography } from '@mui/material';
+import { Box } from '@mui/material';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { deepPurple, pink } from '@mui/material/colors';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import AdSense from 'react-adsense';
 import MenuBar from 'components/menu/MenuBar';
+import Tool from 'components/tool/Tool';
 import useWindowOrientation from 'hooks/useWindowOrientation';
 import { isTouchDevice, getPageScale } from 'helpers/app';
 import '@fontsource/roboto/300.css';
@@ -25,7 +26,7 @@ function App() {
   const theme = createTheme({
   palette: {
     primary: deepPurple,
-	secondary: pink
+    secondary: pink
   },
 });
   const { orientation, resizing } = useWindowOrientation();
@@ -45,10 +46,8 @@ function App() {
           </Box>
         }
         <Box role="main" className="Main" sx={{ bgcolor: theme.palette.background.default }}>
-      <MenuBar />
-      <Typography sx={{ p: 2 }}>
-            Coming Soon!
-          </Typography>
+          <MenuBar />
+          <Tool />
         </Box>
         {orientation === 'landscape' && !resizing && 
           <Box className="vertical-ad-right">

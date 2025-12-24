@@ -20,9 +20,15 @@ const HelpDialog = (props) => {
       onClose={props.onClose}
     >
       <DialogTitle id="help-dialog-title">App Info</DialogTitle>
-      <DialogContent id="help-dialog-content" dividers={true} sx={{ p: 0 }}>
-        <DialogContentText sx={{ p: 2 }}>
-          A tool to plan a gradient manicure.
+      <DialogContent id="help-dialog-content" dividers={true} sx={{ display: 'flex', flexDirection: 'column', gap: 2, p: 2 }}>
+        <DialogContentText>
+          This application is a tool to help plan a gradient manicure.
+        </DialogContentText>
+        <DialogContentText>
+          Start by choosing your nail shape, then up to 8 polish colors, and finally the type of gradient you wish to achieve (e.g. linear or radial).
+        </DialogContentText>
+        <DialogContentText>
+          The polishes will be applied one after the other, in the same order as selected, and evenly spaced on the nail.
         </DialogContentText>
       </DialogContent>
       <DialogActions>
