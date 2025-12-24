@@ -3,6 +3,14 @@ import react from '@vitejs/plugin-react'
 
 export default defineConfig({
   base: "https://mh11wi.github.io/GradientGuide/",
+  build: {
+    rollupOptions: {
+      input: {
+        main: 'index.html',
+        embed: 'embed.html'
+      }
+    }
+  },
   plugins: [
     {
       name: 'treat-js-files-as-jsx',
