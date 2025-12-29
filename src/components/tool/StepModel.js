@@ -1,13 +1,17 @@
 import { useContext } from 'react';
 import { ToolContext } from 'components/tool/Tool';
 import { Box, FormControl, FormControlLabel, Radio, RadioGroup } from '@mui/material';
+import round from 'assets/round.png';
+import square from 'assets/square.png';
+import almond from 'assets/almond.png';
+import squoval from 'assets/squoval.png';
 
 
 const models = [
-  { label: 'Round', value: 'round' }, 
-  { label: 'Square', value: 'square' }, 
-  { label: 'Almond', value: 'almond' }, 
-  { label: 'Squoval', value: 'squoval' }, 
+  { label: 'Round', value: 'round', src: round }, 
+  { label: 'Square', value: 'square', src: square }, 
+  { label: 'Almond', value: 'almond', src: almond }, 
+  { label: 'Squoval', value: 'squoval', src: squoval }, 
 ];
 
 const StepModel = (props) => {
@@ -49,7 +53,7 @@ const StepModel = (props) => {
         flexGrow: 1, 
         aspectRatio: '1/1'
       }}>
-        <img alt={model} src={model + '.png'} style={{ width: '100%' }} />
+        <img alt={model} src={models.find(x => x.value == model).src} style={{ width: '100%' }} />
       </Box>
     </Box>
   );

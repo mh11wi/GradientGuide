@@ -3,6 +3,11 @@ import { ToolContext } from 'components/tool/Tool';
 import { Box, FormControl, FormControlLabel, Radio, RadioGroup } from '@mui/material';
 
 
+const images = import.meta.glob('/src/assets/*.png', {
+  eager: true,
+  import: 'default'
+});
+
 const types = [
   { label: 'Vertical', value: 'vertical', gradient: '0deg' }, 
   { label: 'Horizontal', value: 'horizontal', gradient: '-90deg' }, 
@@ -66,13 +71,13 @@ const StepGradient = (props) => {
         <Box sx={{ 
           position: 'absolute', 
           width: '34%', 
-          height: '62%', 
+          height: '64%', 
           top: '1px', 
           left: '50%', 
           transform: 'translateX(-50%)', 
           background: calculateGradient()
         }} />
-        <img alt={model} src={model + '.png'} style={{ position: 'relative', width: '100%' }} />
+        <img alt={model} src={images[Object.keys(images).find(x => x.includes(model))]} style={{ position: 'relative', width: '100%' }} />
       </Box>
     </Box>
   );

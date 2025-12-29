@@ -1,6 +1,7 @@
 import { createContext, useEffect, useState } from 'react';
 import { useTheme } from '@mui/material/styles';
 import { Stepper, Step, StepLabel, Button, Box } from '@mui/material';
+import { KeyboardArrowLeft, KeyboardArrowRight} from '@mui/icons-material';
 import StepModel from 'components/tool/StepModel';
 import StepColors from 'components/tool/StepColors';
 import StepGradient from 'components/tool/StepGradient';
@@ -74,10 +75,10 @@ const Tool = (props) => {
           {renderStepContent(activeStep)}
         </Box>
         <Box sx={{ display: 'flex', justifyContent: 'space-between'}}>
-          <Button disabled={activeStep === 0} onClick={handleBack}>
+          <Button disabled={activeStep === 0} onClick={handleBack} startIcon={<KeyboardArrowLeft />}>
             Back
           </Button>
-          <Button disabled={activeStep === steps.length - 1} onClick={handleNext}>
+          <Button disabled={activeStep === steps.length - 1} onClick={handleNext} endIcon={<KeyboardArrowRight />}>
             Next
           </Button>
         </Box>
