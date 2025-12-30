@@ -44,7 +44,10 @@ const StepColors = (props) => {
       gridGap: '1rem',
       textAlign: 'center',
       pl: 4,
-      width: (orientation == 'landscape' && numColumns == 1) ? '50%' : '100%'
+      width: {
+        xs: '75%',
+        sm: numColumns == 1 ? '50%' : '100%'
+      }
     }}>
       {colors.map((color, index) => (
         <ColorPicker 
