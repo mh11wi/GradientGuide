@@ -36,13 +36,13 @@ const ColorPicker = (props) => {
           onClick={handleClick} 
           onChange={handleChange}
           label={'Polish ' + (props.index + 1)}
+          sx={{ flexGrow: props.options ? 1 : 0 }}
           slotProps={{ 
             input: { 
               readOnly: true, 
               value: props.getDisplay(props.index) 
             } 
           }}
-          sx={{ '& .MuiColorInput-Button': { cursor: 'pointer !important' } }}
         />
         {props.options && 
           <Select
@@ -82,7 +82,8 @@ const ColorPicker = (props) => {
       display: props.hidden ? 'none': 'block', 
       gridColumn: props.column,
       gridRow: props.row,
-      "& .MuiInputBase-root, input": { cursor: 'pointer' } 
+      "& .MuiInputBase-root, input": { cursor: 'pointer' },
+      "& .MuiColorInput-Button": { cursor: 'pointer !important' }
     }}>
       {content}
     </Box>

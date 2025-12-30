@@ -17,7 +17,7 @@ const StepColors = (props) => {
   
   let options = [];
   pluck(source, 'b').forEach(brand => {
-    options.push(<ListSubheader key={brand}>{brand}</ListSubheader>)
+    options.push(<ListSubheader key={brand} color="primary" sx={{ fontWeight: 700 }}>{'- ' + brand + ' -'}</ListSubheader>)
     options.push(...source.filter(polish => polish.b == brand).map(polish => (
       <MenuItem key={polish.h} value={'#' + polish.h.toLowerCase()}>{polish.n}</MenuItem>
     )));
@@ -44,7 +44,7 @@ const StepColors = (props) => {
       gridGap: '1rem',
       textAlign: 'center',
       pl: 4,
-      width: '100%'
+      width: (orientation == 'landscape' && numColumns == 1) ? '50%' : '100%'
     }}>
       {colors.map((color, index) => (
         <ColorPicker 
