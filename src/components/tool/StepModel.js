@@ -1,17 +1,18 @@
 import { useContext } from 'react';
 import { ToolContext } from 'components/tool/Tool';
 import { Box, FormControl, FormControlLabel, Radio, RadioGroup } from '@mui/material';
-import round from 'assets/round.png';
-import square from 'assets/square.png';
-import almond from 'assets/almond.png';
-import squoval from 'assets/squoval.png';
 
+
+const images = import.meta.glob('/src/assets/*.png', {
+  eager: true,
+  import: 'default'
+});
 
 const models = [
-  { label: 'Round', value: 'round', src: round }, 
-  { label: 'Square', value: 'square', src: square }, 
-  { label: 'Almond', value: 'almond', src: almond }, 
-  { label: 'Squoval', value: 'squoval', src: squoval }, 
+  { label: 'Round', value: 'round' }, 
+  { label: 'Square', value: 'square' }, 
+  { label: 'Almond', value: 'almond' }, 
+  { label: 'Squoval', value: 'squoval' }, 
 ];
 
 const StepModel = (props) => {
@@ -33,7 +34,7 @@ const StepModel = (props) => {
       <FormControl sx={{ flexShrink: 0 }}>
         <RadioGroup
           name="model"
-          defaultValue={model} 
+          value={model} 
           onChange={onChange}
           row={orientation == 'portrait'}
         >
@@ -53,7 +54,11 @@ const StepModel = (props) => {
         flexGrow: 1, 
         aspectRatio: '1/1'
       }}>
-        <img alt={model} src={models.find(x => x.value == model).src} style={{ width: '100%' }} />
+        <img 
+          alt={model} 
+          src={images[Object.keys(images).find(x => x.includes(model))]} 
+          style={{ width: '100%' }} 
+        />
       </Box>
     </Box>
   );

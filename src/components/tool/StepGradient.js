@@ -47,7 +47,7 @@ const StepGradient = (props) => {
       <FormControl sx={{ flexShrink: 0 }}>
         <RadioGroup
           name="type"
-          defaultValue={type} 
+          value={type} 
           onChange={onChange}
           row={orientation == 'portrait'}
         >
@@ -77,7 +77,11 @@ const StepGradient = (props) => {
           transform: 'translateX(-50%)', 
           background: calculateGradient()
         }} />
-        <img alt={model} src={images[Object.keys(images).find(x => x.includes(model))]} style={{ position: 'relative', width: '100%' }} />
+        <img 
+          alt={model} 
+          src={images[Object.keys(images).find(x => x.includes(model))]} 
+          style={{ position: 'relative', width: '100%' }} 
+        />
       </Box>
     </Box>
   );

@@ -1,30 +1,60 @@
+import { useState } from 'react';
 import { MuiColorInput } from 'mui-color-input';
-import { Box, Button, IconButton } from '@mui/material';
+import { Box, Button, IconButton, Select } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 
 
 const ColorPicker = (props) => {
+  const [open, setOpen] = useState(false);
+  
   const handleClick = (event) => {
-    event.target.parentElement.querySelector('button').click();
+    if (props.options) {
+      setOpen(true);
+    } else {
+      event.target.parentElement.querySelector('button').click();
+    }
   }
   
   const handleChange = (value) => {
     props.changeColor(props.index, value);
   }
   
+  const handleSelect = (event) => {
+    setOpen(false);
+    props.changeColor(props.index, event.target.value);
+  }
+  
   let content;
   if (props.color) {
     content = (
-      <Box sx={{ display: 'flex', justifyContent: 'center', alignItmes: 'center' }}>
+      <Box sx={{ display: 'flex', justifyContent: 'center', alignItmes: 'center', position: 'relative' }}>
         <MuiColorInput 
           format="hex" 
           isAlphaHidden="true" 
+          disablePopover={props.options} 
           value={props.color} 
           onClick={handleClick} 
           onChange={handleChange}
           label={'Polish ' + (props.index + 1)}
-          slotProps={{ input: { readOnly: true } }}
+          slotProps={{ 
+            input: { 
+              readOnly: true, 
+              value: props.getDisplay(props.index) 
+            } 
+          }}
+          sx={{ '& .MuiColorInput-Button': { cursor: 'pointer !important' } }}
         />
+        {props.options && 
+          <Select
+            open={open}
+            value={props.color}
+            onChange={handleSelect}
+            onClose={() => setOpen(false)}
+            sx={{ position: 'absolute', visibility: 'hidden' }}
+          >
+            {props.options}
+          </Select>
+        }
         <IconButton 
           aria-label="Remove Polish" 
           color="primary" 
