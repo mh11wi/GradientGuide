@@ -1,1 +1,0 @@
-import{x as t,R as o,j as e,z as r,C as s}from"./Tool-C4b8Vkpx.js";const a=t({palette:{primary:{main:"#f06292"}}}),m=o.createRoot(document.getElementById("root"));m.render(e.jsx(r,{theme:a,children:e.jsx(s,{skipModel:!0})}));
