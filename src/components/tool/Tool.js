@@ -1,24 +1,31 @@
 import { createContext, useEffect, useState } from 'react';
 import { useTheme } from '@mui/material/styles';
 import { Stepper, Step, StepLabel, Button, Box } from '@mui/material';
-import { KeyboardArrowLeft, KeyboardArrowRight} from '@mui/icons-material';
+import { KeyboardArrowLeft, KeyboardArrowRight, Replay } from '@mui/icons-material';
 import StepSource from 'components/tool/StepSource';
 import StepModel from 'components/tool/StepModel';
 import StepColors from 'components/tool/StepColors';
 import StepGradient from 'components/tool/StepGradient';
+import StepFinish from 'components/tool/StepFinish';
 import useWindowOrientation from 'hooks/useWindowOrientation';
 
 
 export const ToolContext = createContext();
+
+const defaults = {
+  model: 'round',
+  colors: ['#ffffff', '#000000', null, null, null, null, null, null],
+  type: 'vertical'
+}
 
 const Tool = (props) => {
   const theme = useTheme();
   const { orientation } = useWindowOrientation();
   const [activeStep, setActiveStep] = useState(0);
   const [source, setSource] = useState([]);
-  const [model, setModel] = useState('round');
-  const [colors, setColors] = useState(['#ffffff', '#000000', null, null, null, null, null, null]);
-  const [type, setType] = useState('vertical');
+  const [model, setModel] = useState(defaults.model);
+  const [colors, setColors] = useState(defaults.colors);
+  const [type, setType] = useState(defaults.type);
   const steps = [
     { label: 'Select polish colours', content: <StepColors /> },
     { label: 'Select gradient type', content: <StepGradient /> },
@@ -45,7 +52,11 @@ const Tool = (props) => {
   }, [props.sourceData]);
   
   const renderStepContent = (index) => {
-    return steps[index].content;
+    if (activeStep == steps.length) {
+      return <StepFinish />;
+    } else {
+      return steps[index].content;
+    }
   };
   
   const handleNext = () => {
@@ -54,6 +65,15 @@ const Tool = (props) => {
 
   const handleBack = () => {
     setActiveStep((step) => step - 1);
+  };
+  
+  const startOver = () => {
+    if (!props.skipModel) {
+      setModel(defaults.model);
+    }
+    setColors(defaults.colors);
+    setType(defaults.type);
+    setActiveStep(0);
   };
   
   return (
@@ -92,9 +112,15 @@ const Tool = (props) => {
           <Button disabled={activeStep === 0} onClick={handleBack} startIcon={<KeyboardArrowLeft />}>
             Back
           </Button>
-          <Button disabled={activeStep === steps.length - 1} onClick={handleNext} endIcon={<KeyboardArrowRight />}>
-            Next
-          </Button>
+          {activeStep === steps.length ? (
+            <Button onClick={startOver} endIcon={<Replay />}>
+              Restart
+            </Button>
+          ) : (
+            <Button onClick={handleNext} endIcon={<KeyboardArrowRight />}>
+              Next
+            </Button>
+          )}
         </Box>
       </Box>
     </ToolContext.Provider>

@@ -25,7 +25,7 @@ const HelpDialog = (props) => {
           This application is a tool to help plan a gradient manicure.
         </DialogContentText>
         <DialogContentText>
-          Start by choosing your nail shape, then up to 8 polish colors, and finally the type of gradient you wish to achieve (e.g. linear or radial).
+          Start by choosing your nail shape, then up to 8 polish colours, and finally the type of gradient you wish to achieve (e.g. linear or radial).
         </DialogContentText>
         <DialogContentText>
           The polishes will be applied one after the other, in the same order as selected, and evenly spaced on the nail.

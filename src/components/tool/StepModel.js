@@ -28,10 +28,11 @@ const StepModel = (props) => {
       flexDirection: orientation == 'landscape' ? 'row' : 'column', 
       justifyContent: orientation == 'landscape' ? 'center' : 'start', 
       alignItems: 'center',
-      gap: 4,
       width: '100%',
+      gap: orientation == 'landscape' ? 1 : 4,
+      ml: orientation == 'landscape' ? 5 : 0
     }}>
-      <FormControl sx={{ flexShrink: 0 }}>
+      <FormControl sx={{ flexShrink: 0  }}>
         <RadioGroup
           name="model"
           value={model} 

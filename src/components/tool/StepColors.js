@@ -1,4 +1,4 @@
-import { Fragment, useContext, useEffect } from 'react';
+import { Fragment, useContext } from 'react';
 import { ToolContext } from 'components/tool/Tool';
 import { Box, ListSubheader, MenuItem } from '@mui/material';
 import ColorPicker  from 'components/tool/ColorPicker';
