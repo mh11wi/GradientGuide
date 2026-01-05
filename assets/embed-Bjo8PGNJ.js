@@ -1,1 +1,0 @@
-import{y as o,R as r,j as e,A as s,D as c}from"./Tool-BPTz9Zmo.js";const m=o({palette:{primary:{main:"#f06292"}}});let t;const n=new URLSearchParams(window.location.search);try{t=JSON.parse(atob(n.get("d")))}catch(a){console.log(a.message)}const d=r.createRoot(document.getElementById("root"));d.render(e.jsx(s,{theme:m,children:e.jsx(c,{sourceData:t,skipModel:!0})}));
