@@ -51,6 +51,49 @@ const Tool = (props) => {
     }
   }, [props.sourceData]);
   
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    let skipToLastStep = true;
+   
+    if (['round', 'square', 'almond', 'squoval'].includes(params.get('model'))) {
+      setModel(params.get('model'));
+    } else {
+      skipToLastStep = false;
+    }
+    
+    if (['vertical', 'horizontal', 'diagonal', 'radial'].includes(params.get('type'))) {
+      setType(params.get('type'));
+    } else {
+      skipToLastStep = false;
+    }
+    
+    const hex = params.get('colors')?.split(',');
+    if (hex && hex.length <= defaults.colors.length) {
+      const arr = defaults.colors.map(c => null);
+      let allValid = true;
+      
+      hex.forEach((value, index) => {
+        if (/^[A-Fa-f0-9]{6}$/.test(value)) {
+          arr[index] = '#' + value.toLowerCase();
+        } else {
+          allValid = false;
+        }
+      });
+      
+      if (allValid) {
+        setColors(arr);
+      } else {
+        skipToLastStep = false;
+      }
+    } else {
+      skipToLastStep = false;
+    }
+    
+    if (skipToLastStep) {
+      setActiveStep(steps.length);
+    }
+  }, []);
+  
   const renderStepContent = (index) => {
     if (activeStep == steps.length) {
       return <StepFinish />;
@@ -105,11 +148,21 @@ const Tool = (props) => {
             </Step>
           ))}
         </Stepper>
-        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%', height: '100%' }}>
+        <Box sx={{ 
+          display: 'flex', 
+          justifyContent: 'center', 
+          alignItems: 'center', 
+          width: '100%', 
+          height: '100%' 
+        }}>
           {renderStepContent(activeStep)}
         </Box>
         <Box sx={{ display: 'flex', justifyContent: 'space-between'}}>
-          <Button disabled={activeStep === 0} onClick={handleBack} startIcon={<KeyboardArrowLeft />}>
+          <Button 
+            disabled={activeStep === 0} 
+            onClick={handleBack} 
+            startIcon={<KeyboardArrowLeft />}
+          >
             Back
           </Button>
           {activeStep === steps.length ? (

@@ -115,34 +115,34 @@ const StepGradient = (props) => {
     setType(value);
   }
   
-  return (
-    <Box sx={{ 
-      display: 'flex', 
-      flexDirection: orientation == 'landscape' ? 'row' : 'column', 
-      justifyContent: orientation == 'landscape' ? 'center' : 'start', 
-      alignItems: 'center',
-      width: '100%',
-      gap: orientation == 'landscape' ? 1 : 4,
-      ml: orientation == 'landscape' ? 5 : 0
-    }}>
-      <FormControl sx={{ flexShrink: 0 }}>
-        <RadioGroup
-          name="type"
-          value={type} 
-          onChange={onChange}
-          row={orientation == 'portrait'}
-        >
-          {types.map(type => (
-            <FormControlLabel 
-              key={type.value} 
-              value={type.value} 
-              control={<Radio />} 
-              label={type.label} 
-            />
-          ))}
-        </RadioGroup>
-      </FormControl>
-      {loaded &&
+  if (loaded) {
+    return (
+      <Box sx={{ 
+        display: 'flex', 
+        flexDirection: orientation == 'landscape' ? 'row' : 'column', 
+        justifyContent: orientation == 'landscape' ? 'center' : 'start', 
+        alignItems: 'center',
+        width: '100%',
+        gap: orientation == 'landscape' ? 1 : 4,
+        ml: orientation == 'landscape' ? 5 : 0
+      }}>
+        <FormControl sx={{ flexShrink: 0 }}>
+          <RadioGroup
+            name="type"
+            value={type} 
+            onChange={onChange}
+            row={orientation == 'portrait'}
+          >
+            {types.map(type => (
+              <FormControlLabel 
+                key={type.value} 
+                value={type.value} 
+                control={<Radio />} 
+                label={type.label} 
+              />
+            ))}
+          </RadioGroup>
+        </FormControl>
         <Box key={type} sx={{ 
           position: 'relative',
           width: '100%',
@@ -164,9 +164,9 @@ const StepGradient = (props) => {
             <Box key={index} sx={getStyle(color, index)} />
           ))}
         </Box>
-      }
-    </Box>
-  );
+      </Box>
+    );
+  }
 };
 
 export default StepGradient;

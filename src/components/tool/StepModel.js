@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { ToolContext } from 'components/tool/Tool';
 import { Box, FormControl, FormControlLabel, Radio, RadioGroup } from '@mui/material';
 
@@ -17,6 +17,7 @@ const models = [
 
 const StepModel = (props) => {
   const { orientation, model, setModel } = useContext(ToolContext);
+  const [loaded, setLoaded] = useState(false);
   
   const onChange = (event, value) => {
     setModel(value);
@@ -32,7 +33,7 @@ const StepModel = (props) => {
       gap: orientation == 'landscape' ? 1 : 4,
       ml: orientation == 'landscape' ? 5 : 0
     }}>
-      <FormControl sx={{ flexShrink: 0  }}>
+      <FormControl sx={{ flexShrink: 0, visibility: loaded ? 'visible' : 'hidden'  }}>
         <RadioGroup
           name="model"
           value={model} 
@@ -58,6 +59,7 @@ const StepModel = (props) => {
         <img 
           alt={model} 
           src={images[Object.keys(images).find(x => x.includes(model))]} 
+          onLoad={() => setLoaded(true)}
           style={{ width: '100%' }} 
         />
       </Box>
