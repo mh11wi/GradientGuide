@@ -1,7 +1,8 @@
 import { useContext, useState } from 'react';
 import { ToolContext } from 'components/tool/Tool';
-import { Box, Button } from '@mui/material';
-import { Share } from '@mui/icons-material';
+import { Box, Button, ButtonGroup } from '@mui/material';
+import { Save, Share } from '@mui/icons-material';
+import html2canvas from 'html2canvas';
 import ShareDialog from 'components/menu/dialogs/share/ShareDialog';
 import { isMobile } from 'helpers/app';
 
@@ -11,16 +12,17 @@ const images = import.meta.glob('/src/assets/*.png', {
   import: 'default'
 });
 
-const types = [
-  { value: 'vertical', gradient: '0deg' }, 
-  { value: 'horizontal', gradient: '90deg' }, 
-  { value: 'diagonal', gradient: '45deg' }, 
-  { value: 'radial', gradient: 'circle' }, 
-];
+const gradients = {
+  vertical: '0deg', 
+  horizontal: '90deg', 
+  diagonal: '45deg', 
+  radial: 'circle', 
+};
 
 const StepFinish = (props) => {
   const { orientation, model, colors, type } = useContext(ToolContext);
   const [loaded, setLoaded] = useState(false);
+  const [save, setSave] = useState(false);
   const [shareOpen, setShareOpen] = useState(false);
   const allColors = colors.filter(color => color != null);
   const query = `?model=${model}&colors=${allColors.map(c => c.replace('#', '')).join(',')}&type=${type}`;
@@ -49,9 +51,32 @@ const StepFinish = (props) => {
     setShareOpen(false);
   }
   
+  const handleClickSave = () => {
+    setSave(true);
+    const target = document.getElementById('target');
+    html2canvas(target, { 
+      windowWidth: orientation == 'landscape' ? 2000 : 2200, 
+      windowHeight: orientation == 'landscape' ? 2000 : 2200, 
+      scale: 1 
+    }).then((canvas) => {
+      const link = document.createElement('a');
+      const now = new Date();
+      const yyyy = now.getFullYear();
+      const mm = String(now.getMonth() + 1).padStart(2, '0');
+      const dd = String(now.getDate()).padStart(2, '0');
+      const hh = String(now.getHours()).padStart(2, '0');
+      const min = String(now.getMinutes()).padStart(2, '0');
+      const ss = String(now.getSeconds()).padStart(2, '0');
+      link.download = `gradient_${yyyy}-${mm}-${dd}_${hh}-${min}-${ss}.png`;
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+      setTimeout(() => setSave(false), 1000);
+    });
+  }
+  
   const calculateGradient = () => {
     let gradient = type == 'radial' ? 'radial-gradient(' : 'linear-gradient(';
-    gradient += types.find(x => x.value == type).gradient;
+    gradient += gradients[type];
     
     allColors.reverse().forEach((color) => {
       gradient += ',' + color;
@@ -69,27 +94,43 @@ const StepFinish = (props) => {
       alignItems: 'center',
       width: '100%',
       gap: orientation == 'landscape' ? 1 : 4,
-      ml: (model != 'me' && orientation == 'landscape')? 5 : 0
+      ml: orientation == 'landscape' ? 2 : 0
     }}>
-      { model != 'me' &&
+      <ButtonGroup 
+        size={orientation == 'landscape' ? 'medium' : 'large'}
+        orientation={orientation == 'landscape' ? 'vertical' : 'horizontal'}
+        sx={{ 
+          alignItems: 'start', 
+          gap: orientation == 'landscape' ? 2 : 4,
+          flexShrink: 0, 
+          visibility: loaded ? 'visible' : 'hidden',
+          '& button': { border: 'none !important', p: 1 }, 
+          '& .MuiButton-loadingIndicator': { left: 5 }
+        }}
+      >
         <Button 
-          onClick={handleClickShare} 
-          startIcon={<Share />}
-          size='large'
-          sx={{ flexShrink: 0, visibility: loaded ? 'visible' : 'hidden' }}
+          onClick={handleClickSave} 
+          startIcon={<Save />}
+          loading={save}
+          loadingPosition="start"
         >
-          Share
+          Save Image
         </Button>
-      }
+        { model != 'me' &&
+          <Button onClick={handleClickShare} startIcon={<Share />}>
+            Share Tool
+          </Button>
+        }
+      </ButtonGroup>
       <ShareDialog
         open={shareOpen}
         onClose={handleCloseShare}
         data={shareData}
       />
-      <Box sx={{ 
+      <Box id="target" sx={{ 
         maxWidth: orientation == 'landscape' ? '60vmin' : 'none', 
         maxHeight: orientation == 'landscape' ? 'none' : '55vmax',
-        flexGrow: 1, 
+        height: '100%', 
         aspectRatio: '1/1', 
         position: 'relative',
       }}>

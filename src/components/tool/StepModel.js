@@ -53,7 +53,7 @@ const StepModel = (props) => {
       <Box sx={{ 
         maxWidth: orientation == 'landscape' ? '60vmin' : 'none', 
         maxHeight: orientation == 'landscape' ? 'none' : '55vmax',
-        flexGrow: 1, 
+        height: '100%', 
         aspectRatio: '1/1'
       }}>
         <img 
