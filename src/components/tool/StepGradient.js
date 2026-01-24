@@ -16,23 +16,6 @@ const StepGradient = (props) => {
   const [loaded, setLoaded] = useState(false);
   const allColors = colors.filter(color => color != null);
   
-  let donuts = [];
-  if (type == 'radial') {
-    for (let i = 0; i < allColors.length; i++) {
-      const S_i = (i / allColors.length) * 100;
-      const S_next = ((i + 1) / allColors.length) * 100;
-
-      const inner = S_i;
-      const outer = S_i + 2 * (S_next - S_i);
-
-      donuts.push({ inner, outer });
-    }
-    
-    const outerMax = Math.max(...donuts.map(d => d.outer));
-    const scale = 200 / 3 / outerMax;
-    donuts = donuts.map(d => ({ inner: d.inner * scale, outer: d.outer * scale})).reverse();
-  }
-  
   const getStyle = (color, index) => {
     let style;
     
@@ -69,6 +52,17 @@ const StepGradient = (props) => {
         }
         break;
       case 'radial':
+        const innerMax = ((allColors.length - 1) / allColors.length) * 100;
+        const outerMax = innerMax + 2 * (100 - innerMax);
+        const scale = 200 / 3 / outerMax;
+        
+        const next = ((allColors.length - index) / allColors.length) * 100;
+        let inner = ((allColors.length - index - 1) / allColors.length) * 100;
+        let outer = inner + 2 * (next - inner);
+        
+        inner *= scale;
+        outer *= scale;
+      
         style = {
           width: '100%',
           height: 'auto',
@@ -79,10 +73,10 @@ const StepGradient = (props) => {
           mask: `
             radial-gradient(
               circle,
-              transparent ${donuts[index].inner}%,
-              black ${donuts[index].inner}%,
-              black ${donuts[index].outer}%,
-              transparent ${donuts[index].outer}%
+              transparent ${inner}%,
+              black ${inner}%,
+              black ${outer}%,
+              transparent ${outer}%
             )
           `
         }
