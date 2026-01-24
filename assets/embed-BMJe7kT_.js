@@ -1,1 +1,0 @@
-import{w as o,R as r,j as e,y as s,A as c}from"./Tool-DL5_4PpQ.js";const m=o({palette:{primary:{main:"#f06292"}}});let t;const n=new URLSearchParams(window.location.search);try{t=JSON.parse(atob(n.get("d")))}catch(a){console.log(a.message)}const d=r.createRoot(document.getElementById("root"));d.render(e.jsx(s,{theme:m,children:e.jsx(c,{sourceData:t,skipModel:!0})}));
